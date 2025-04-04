@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4"> Recetas para Farmacia</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Identificación</th>
+                    <th>Receta / Conducta</th>
+                    <th>Fecha</th>
+                    <th>Diagnostico</th>
+                    <th>Medico Tratante</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pedidosFarmacia.forEach(pedido => { %>
+                    <tr>
+                        <td class="text-center"><%= pedido.id %></td>
+                        <td><%= pedido.nombre %></td>
+                        <td><%= pedido.identificacion %></td>
+                        <td><%= pedido.conducta %></td>
+                        <td class="text-center"><%= new Date(pedido.fecha).toLocaleDateString('es-ES') %></td>
+                        <th><%= pedido.diagnostico %></th>
+                        <th><%= pedido.firma_medico %></th>
+                        <td class="text-center">
+                            <div class="card shadow d-inline-block p-0" style="background: none; border: none;">
+                                <a href="/farmacia/ver/<%= pedido.id %>" class="btn btn-primary">Ver</a>
+                            </div>
+                        </td>                        
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card shadow col-md-2 mb-4 p-0 text-center mt-4 mx-auto d-flex justify-content-center" 
+        style="background: none; border: none;">
+        <a href="/dashboard" class="btn btn-primary btn-lg">Volver</a>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

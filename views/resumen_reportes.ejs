@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - ConviCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Reportes</h1>
+        <p class="text-center">Seleccione un reporte para ver la información correspondiente.</p>
+
+        <!-- Botones de Reportes por servicio -->
+        <div class="row justify-content-center gap-2">
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/medicina_general" class="btn btn-primary w-100">Reporte de Medicina General</a>
+            </div>
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/odontologia" class="btn btn-secondary w-100">Reporte de Odontología</a>
+            </div>
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/optometria" class="btn btn-success w-100">Reporte de Optometría</a>
+            </div>
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/higiene_oral" class="btn btn-danger w-100">Reporte de Higiene Oral</a>
+            </div>
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/nutricion" class="btn btn-warning w-100">Reporte de Nutrición</a>
+            </div>
+            <div class="card shadow col-md-3 mb-3 p-2 mx-2">
+                <a href="/reporte/psicologia" class="btn btn-info w-100">Reporte de Psicología</a>
+            </div>
+
+            <!-- Botón de Reporte General -->
+            <div class="row justify-content-center">
+                <div class="card shadow col-md-3 mb-3 p-2 mx-2 text-center">
+                    <a href="/reporte/general" class="btn btn-primary w-100">Reporte General</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Botón para volver al dashboard -->
+    <div class="row justify-content-center mt-5">
+        <div class="card shadow col-md-2 mb-3 p-0 mx-2 text-center" style="background: none; border: none;">
+            <a href="/dashboard" class="btn btn-dark">Volver</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<%- include('partials/footer') %>

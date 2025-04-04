@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Historias Clínicas Registradas</h2>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% historias.forEach(historia => { %>
+                <tr>
+                    <td><%= historia.id %></td>
+                    <td><%= historia.fecha %></td>
+                    <td><%= historia.nombre %></td>
+                    <td><%= historia.identificacion %></td>
+                    <td>
+                        <a href="/historias_simples/editar/<%= historia.id %>" class="btn btn-primary btn-sm">Atender</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <!-- 📌 Botón para regresar al dashboard -->
+    <div class="text-center mt-4">
+        <a href="/dashboard" class="btn btn-primary btn-lg">Volver al Board</a>
+    </div>
+
+<%- include('partials/footer') %>

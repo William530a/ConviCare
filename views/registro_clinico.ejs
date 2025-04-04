@@ -1,0 +1,311 @@
+<%- include('partials/header') %>
+<link rel="stylesheet" href="/styles.css">
+
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Registro de Historia Clínica</h2>
+    <form action="/registro" method="POST" class="needs-validation" novalidate>
+        <!-- Datos Personales -->
+        <div class="card p-4 shadow">
+            <h5 class="mb-3">Datos Personales</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label for="fecha" class="form-label">Fecha de atencion:</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="tipo_identificacion" class="form-label">Tipo de Identificación:</label>
+                    <select id="tipo_identificacion" name="tipo_identificacion" class="form-control" required>
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                        <option value="CE">Cédula de Extranjería</option>
+                        <option value="PA">Pasaporte</option>
+                        <option value="RC">Registro Civil</option>
+                    </select>
+                </div>               
+                <div class="col-md-3">
+                    <label for="identificacion" class="form-label">Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" class="form-control" required>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" id="edad" name="edad" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sexo:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexo" id="sexoM" value="M" required>
+                        <label class="form-check-label" for="sexoM">M</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexo" id="sexoF" value="F" required>
+                        <label class="form-check-label" for="sexoF">F</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control">
+                </div>
+            </div>
+            
+            <!-- Nuevos Campos -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label class="form-label">Baño:</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="bano" id="bano_si" value="si" required>
+                        <label class="form-check-label" for="bano_si">Sí</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="bano" id="bano_no" value="no" required>
+                        <label class="form-check-label" for="bano_no">No</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="responsable" class="form-label">Nombre del Responsable:</label>
+                    <input type="text" id="responsable" name="responsable" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="parentesco" class="form-label">Parentesco:</label>
+                    <input type="text" id="parentesco" name="parentesco" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="telefono_responsable" class="form-label">Teléfono del Responsable:</label>
+                    <input type="text" id="telefono_responsable" name="telefono_responsable" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivo de Consulta -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Motivo de Consulta</h5>
+            <textarea class="form-control" name="motivo_consulta" rows="3" required></textarea>
+            <h5 class="mb-3">No otra sintomatologia asociada.</h5>
+        </div>
+
+        <!-- Antecedentes -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Antecedentes</h5>
+
+            <div class="row g-3">
+                <div class="row g-3 mt-3" id="campos_mujer">
+                    <div class="col-md-3">
+                        <label for="fum" class="form-label">FUM:</label>
+                        <input type="date" id="fum" name="fum" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="g" class="form-label">G:</label>
+                        <input type="number" id="g" name="g" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="a" class="form-label">A:</label>
+                        <input type="number" id="a" name="a" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="p" class="form-label">P:</label>
+                        <input type="number" id="p" name="p" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="v" class="form-label">V:</label>
+                        <input type="number" id="v" name="v" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="c" class="form-label">C:</label>
+                        <input type="number" id="c" name="c" class="form-control">
+                    </div>
+                
+
+                    <!-- Ciclos -->
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Ciclos</label>
+                            <div class="d-flex">
+                                <input type="text" id="ciclo1" name="ciclo1" class="form-control me-2">
+                                <span class="align-self-center">X</span>
+                                <input type="text" id="ciclo2" name="ciclo2" class="form-control ms-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="form-control mt-3" name="antecedentes" rows="3"></textarea>
+                <h5 class="mb-3">Restos negativos.</h5>
+            </div>
+        </div>
+
+        <!-- Examen Físico -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Examen Físico</h5>
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <label for="fc" class="form-label">FC (x min):</label>
+                    <input type="text" id="fc" name="fc" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label for="fr" class="form-label">FR (x min):</label>
+                    <input type="text" id="fr" name="fr" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label for="ta" class="form-label">TA:</label>
+                    <input type="text" id="ta" name="ta" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label for="temperatura" class="form-label">Temperatura (C°):</label>
+                    <input type="text" id="temperatura" name="temperatura" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label for="peso" class="form-label">Peso (kg):</label>
+                    <input type="text" id="peso" name="peso" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label for="talla" class="form-label">Talla (m):</label>
+                    <input type="text" id="talla" name="talla" class="form-control">
+                </div>
+            </div>
+            <h5 class="mb-3">Positivo al examen físico.</h5>
+            <textarea class="form-control" name="fisico" rows="3"></textarea>
+            <h5 class="mb-3">Resto de examen dentro de limites normales.</h5>
+        </div>
+
+        <!-- Atención -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Tipo de Atención</h5>
+
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de Atención">
+                <input type="radio" class="btn-check" name="atencion" id="atencion-general" value="General" checked>
+                <label class="btn btn-outline-primary m-1" for="atencion-general"><i class="bi bi-check-circle"></i> General</label>
+
+                <input type="radio" class="btn-check" name="atencion" id="atencion-prioritaria" value="Prioritaria">
+                <label class="btn btn-outline-danger m-1" for="atencion-prioritaria"><i class="bi bi-exclamation-circle"></i> Prioritaria</label>
+            </div>
+        </div>
+
+
+        
+
+        <!-- Servicios -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Servicios Disponibles</h5>
+
+            <div class="btn-group d-flex flex-wrap" role="group" aria-label="Servicios">
+                <% const servicios = ["Medicina General", "Odontología", "Optometría", "Higiene Oral", "Nutrición", "Psicología"]; %>
+
+                <% servicios.forEach(servicio => { %>
+                    <input type="checkbox" class="btn-check" name="servicios[]" value="<%= servicio %>" 
+                        id="servicio-<%= servicio.replace(' ', '').toLowerCase() %>">
+                    
+                    <label class="btn btn-outline-primary m-1" for="servicio-<%= servicio.replace(' ', '').toLowerCase() %>">
+                        <i class="bi bi-check-circle"></i> <%= servicio %>
+                    </label>
+                <% }); %>
+            </div>
+        </div>
+       
+
+
+
+        <!-- Firmas -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Firmas</h5>
+            <div class="row g-3">
+                <!-- Firma del Enfermer@ -->
+                <div class="col-md-6 text-center">
+                    <label for="firma_ingreso" class="form-label">Firma del Enfermer@:</label>
+                    <input type="text" id="firma_ingreso" name="firma_ingreso" class="form-control" 
+                        value="<%= usuario ? usuario.nombre : '' %>" readonly>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Obtener el rol del usuario desde la plantilla
+            const usuarioRol = "<%= usuario.rol %>";
+
+            // Si el usuario es médico, llenar automáticamente la firma del médico
+            if (usuarioRol === "Médico") {
+                document.getElementById('firma_medico').value = "<%= usuario.nombre %>";
+            }
+        </script>
+
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            <a href="/dashboard" class="btn btn-dark btn-lg">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    document.getElementById('fecha_nacimiento').addEventListener('change', function() {
+        const fechaNacimiento = new Date(this.value);
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+
+        // Coloca la edad calculada en el campo correspondiente
+        document.getElementById('edad').value = edad >= 0 ? edad : 0;
+    });
+</script>
+
+<script>
+    // Capturamos los botones de radio y los campos a mostrar/ocultar
+    const sexoRadios = document.querySelectorAll('input[name="sexo"]');
+    const camposMujer = document.getElementById('campos_mujer'); 
+    
+    // Función para mostrar/ocultar los campos según el sexo seleccionado
+    function actualizarCamposSexo() {
+        // Verifica cuál radio está seleccionado
+        const sexoSeleccionado = Array.from(sexoRadios).find(radio => radio.checked)?.value;
+
+        if (sexoSeleccionado === 'M') {
+            // Ocultar completamente sin dejar espacio
+            camposMujer.style.display = 'none';
+    
+            // Desactiva los inputs internos para que no envíen datos vacíos
+            camposMujer.querySelectorAll('input').forEach(input => input.disabled = true);
+        } else {
+            // Mostrar los campos
+            camposMujer.style.display = 'flex'; // Mantiene el formato horizontal
+            camposMujer.style.flexWrap = 'wrap';
+    
+            // Reactiva los inputs
+            camposMujer.querySelectorAll('input').forEach(input => input.disabled = false);
+        }
+    }
+    
+    sexoRadios.forEach(radio => {
+        radio.addEventListener('change', actualizarCamposSexo);
+    });
+
+    // Llamada inicial para ajustar los campos según la selección actual
+    actualizarCamposSexo();
+</script>
+
+
+<%- include('partials/footer') %>

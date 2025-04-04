@@ -1,0 +1,126 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Registro Básico de Historia Clínica</h2>
+
+    <form action="/registro_simple" method="POST" class="needs-validation" novalidate>
+        <!-- Datos Personales -->
+        <div class="card p-4 shadow">
+            <h5 class="mb-3">Datos Personales</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label for="fecha" class="form-label">Fecha de atencion:</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="tipo_identificacion" class="form-label">Tipo de Identificación:</label>
+                    <select id="tipo_identificacion" name="tipo_identificacion" class="form-control" required>
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                        <option value="CE">Cédula de Extranjería</option>
+                        <option value="PA">Pasaporte</option>
+                        <option value="RC">Registro Civil</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="identificacion" class="form-label">Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" class="form-control" required>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" id="edad" name="edad" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sexo:</label>
+                    <select name="sexo" class="form-control" required>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control">
+                </div>
+            </div>
+
+            <!-- Baño y Responsable -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label class="form-label">Baño:</label>
+                    <select name="bano" class="form-control" required>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="responsable" class="form-label">Nombre del Responsable:</label>
+                    <input type="text" id="responsable" name="responsable" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="parentesco" class="form-label">Parentesco:</label>
+                    <input type="text" id="parentesco" name="parentesco" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="telefono_responsable" class="form-label">Teléfono del Responsable:</label>
+                    <input type="text" id="telefono_responsable" name="telefono_responsable" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivo de Consulta -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Motivo de Consulta</h5>
+            <textarea class="form-control" name="motivo_consulta" rows="3" required></textarea>
+        </div>
+
+        <!-- Botón de guardar -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Guardar Registro</button>
+            <a href="/dashboard" class="btn btn-dark btn-lg">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('fecha_nacimiento').addEventListener('change', function() {
+        const fechaNacimiento = new Date(this.value);
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+        // Ajusta la edad si el cumpleaños aún no ha pasado este año
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+
+        // Coloca la edad calculada en el campo correspondiente
+        document.getElementById('edad').value = edad >= 0 ? edad : 0;
+    });
+</script>
+
+
+<%- include('partials/footer') %>

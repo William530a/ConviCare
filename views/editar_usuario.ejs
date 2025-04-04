@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>Editar Usuario</h3>
+            </div>
+            <div class="card-body">
+                <form action="/usuarios/editar/<%= usuario.id %>" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre:</label>
+                        <input type="text" name="nombre" class="form-control" value="<%= usuario.nombre %>" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <input type="email" name="email" class="form-control" value="<%= usuario.email %>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Rol:</label>
+                        <select name="rol" class="form-select">
+                            <option value="odontolog@" <%= usuario.rol === 'odontolog@' ? 'selected' : '' %>>Odontolog@</option>
+                            <option value="optometra" <%= usuario.rol === 'optometra' ? 'selected' : '' %>>Optometra</option>
+                            <option value="nutricionista" <%= usuario.rol === 'nutricionista' ? 'selected' : '' %>>Nutricionista</option>
+                            <option value="psicolog@" <%= usuario.rol === 'psicolog@' ? 'selected' : '' %>>Psicolog@</option>
+                            <option value="admin" <%= usuario.rol === 'admin' ? 'selected' : '' %>>Administrador</option>
+                            <option value="medico" <%= usuario.rol === 'medico' ? 'selected' : '' %>>Médico</option>
+                            <option value="voluntario" <%= usuario.rol === 'voluntario' ? 'selected' : '' %>>Voluntario</option>
+                            <option value="enfermer@" <%= usuario.rol === 'enfermer@' ? 'selected' : '' %>>Enfermer@</option>
+                            <option value="practicante" <%= usuario.rol === 'practicante' ? 'selected' : '' %>>Practicante</option>
+                        </select>
+                    </div>
+                    
+
+                    <div class="card shadow col-md-2 mb-3 p-0 mx-auto text-center" style="background: none; border: none;">
+                        <button type="submit" class="btn btn-primary px-4">Guardar cambios</button>
+                    </div>
+                    <div class="card shadow col-md-2 mb-3 p-0 mx-auto text-center" style="background: none; border: none;">
+                        <a href="/usuarios" class="btn btn-secondary px-4">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+<%- include('partials/footer') %>

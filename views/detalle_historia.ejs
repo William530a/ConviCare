@@ -1,0 +1,326 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Historia Clínica</h2>
+    <form action="/historias_clinicas_atendidas/ver/<%= historia.id %>" method="POST" class="needs-validation" novalidate>
+        
+ 
+        <!-- Datos Personales -->
+        <div class="card p-4 shadow">
+            <h5 class="mb-3">Datos Personales</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label for="fecha">Fecha de Registro:</label>
+                    <input type="date" id="fecha" name="fecha" value="<%= historia.fecha ? historia.fecha.toISOString().split('T')[0] : '' %>" disabled>
+                </div>
+                <div class="col-md-3">
+                    <label for="tipo_identificacion" class="form-label">Tipo de Identificación:</label>
+                    <select id="tipo_identificacion" name="tipo_identificacion" class="form-select" required disabled>
+                        <option value="CC" <%= historia.tipo_identificacion === 'CC' ? 'selected' : '' %>>Cédula de Ciudadanía</option>
+                        <option value="TI" <%= historia.tipo_identificacion === 'TI' ? 'selected' : '' %>>Tarjeta de Identidad</option>
+                        <option value="CE" <%= historia.tipo_identificacion === 'CE' ? 'selected' : '' %>>Cédula de Extranjería</option>
+                        <option value="PAS" <%= historia.tipo_identificacion === 'PAS' ? 'selected' : '' %>>Pasaporte</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="identificacion" class="form-label">Número de Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" class="form-control" value="<%= historia.identificacion %>" required disabled>
+                </div>                
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" value="<%= historia.nombre %>" required disabled>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-2">
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" id="edad" name="edad" class="form-control" value="<%= historia.edad %>" required disabled>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sexo:</label>
+                    <select id="sexo" name="sexo" class="form-select" disabled>
+                        <option value="M" <%= historia.sexo === 'M' ? 'selected' : '' %>>Masculino</option>
+                        <option value="F" <%= historia.sexo === 'F' ? 'selected' : '' %>>Femenino</option>
+                    </select>
+                </div>                              
+                <div class="col-md-4">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" value="<%= historia.direccion %>" disabled>
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control" value="<%= historia.telefono %>" disabled>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label class="form-label">Baño:</label>
+                    <select name="bano" class="form-select" disabled>
+                        <option value="Si" <%= historia.bano === 'Si' ? 'selected' : '' %>>Sí</option>
+                        <option value="No" <%= historia.bano === 'No' ? 'selected' : '' %>>No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivo de Consulta -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Motivo de Consulta</h5>
+            <textarea class="form-control" name="motivo_consulta" rows="3" disabled><%= historia.motivo_consulta || '' %></textarea>
+        </div>
+
+
+            <!-- Antecedentes -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Antecedentes</h5>
+
+            <div class="row g-2">
+                <!-- Contenedor general de los campos femeninos -->
+                <div class="row g-3 mt-3" id="antecedentes_mujer">
+                    <div class="col-md-3">
+                        <label for="fum">FUM:</label>
+                        <input type="date" id="fum" name="fum" value="<%= historia.fum ? historia.fum.toISOString().split('T')[0] : '' %>" disabled>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="g" class="form-label">G:</label>
+                        <input type="number" id="g" name="g" class="form-control" value="<%= historia.g %>" disabled>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="a" class="form-label">A:</label>
+                        <input type="number" id="a" name="a" class="form-control" value="<%= historia.a %>" disabled>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="p" class="form-label">P:</label>
+                        <input type="number" id="p" name="p" class="form-control" value="<%= historia.p %>" disabled>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="v" class="form-label">V:</label>
+                        <input type="number" id="v" name="v" class="form-control" value="<%= historia.v %>" disabled>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="c" class="form-label">C:</label>
+                        <input type="number" id="c" name="c" class="form-control" value="<%= historia.c %>" disabled>
+                    </div>
+
+                    <!-- Ciclos -->
+                    <div class="row g-3 mt-3" id="ciclos_container">
+                        <div class="col-md-4">
+                            <label class="form-label">Ciclos</label>
+                            <div class="d-flex">
+                                <input type="text" id="ciclo1" name="ciclo1" class="form-control me-2" 
+                                    value="<%= (historia.ciclos ? historia.ciclos.split('X')[0] : '') %>" disabled>
+                                <span class="align-self-center">X</span>                      
+                                <input type="text" id="ciclo2" name="ciclo2" class="form-control ms-2" 
+                                    value="<%= (historia.ciclos ? historia.ciclos.split('X')[1] : '') %>" disabled>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Area de texto para otros antecedentes -->
+                <textarea class="form-control mt-3" name="antecedentes" rows="3" disabled><%= historia.antecedentes || '' %></textarea>
+                <h5 class="mb-3">Restos negativos.</h5>
+            </div>
+        </div>
+
+
+        <!-- Examen Físico -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Examen Físico</h5>
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <label for="fc" class="form-label">FC (x min):</label>
+                    <input type="text" id="fc" name="fc" class="form-control" value="<%= historia.fc %>" disabled>
+                </div>
+                <div class="col-md-2">
+                    <label for="fr" class="form-label">FR (x min):</label>
+                    <input type="text" id="fr" name="fr" class="form-control" value="<%= historia.fr %>" disabled>
+                </div>
+                <div class="col-md-2">
+                    <label for="ta" class="form-label">TA:</label>
+                    <input type="text" id="ta" name="ta" class="form-control" value="<%= historia.ta %>" disabled>
+                </div>
+                <div class="col-md-2">
+                    <label for="temperatura" class="form-label">Temperatura (C°):</label>
+                    <input type="text" id="temperatura" name="temperatura" class="form-control" value="<%= historia.temperatura %>" disabled>
+                </div>
+                <div class="col-md-2">
+                    <label for="peso" class="form-label">Peso (kg):</label>
+                    <input type="text" id="peso" name="peso" class="form-control" value="<%= historia.peso %>" disabled>
+                </div>
+                <div class="col-md-2">
+                    <label for="talla" class="form-label">Talla (m):</label>
+                    <input type="text" id="talla" name="talla" class="form-control" value="<%= historia.talla %>" disabled>
+                </div>
+            </div>
+            <h5 class="mb-3">Positivo al examen físico.</h5>
+            <textarea class="form-control" name="fisico" rows="3" disabled><%= historia.fisico %></textarea>
+            <h5 class="mb-3">Resto de examen dentro de limites normales.</h5>
+        </div>
+
+        <!-- Atencion-->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Tipo de Atencion</h5>
+
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de Atencion">
+                <input type="radio" class="btn-check" name="atencion" id="atencion-general" value="General"
+                    <%= historia.atencion === 'General' ? 'checked' : '' %> disabled>
+                <label class="btn btn-outline-primary m-1" for="atencion-general">
+                    <i class="bi bi-check-circle"></i> General
+                </label>
+                <input type="radio" class="btn-check" name="atencion" id="atencion-prioritaria" value="Prioritaria" 
+                    <%= historia.atencion === 'Prioritaria' ? 'checked' : '' %> disabled>
+                <label class="btn btn-outline-danger m-1" for="atencion-prioritaria">
+                    <i class="bi bi-exclamation-circle"></i> Prioritaria
+                </label>
+            </div>
+        </div>
+
+        <!-- Diagnóstico -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Diagnóstico</h5>
+            <textarea class="form-control" name="diagnostico" rows="3" disabled><%= historia.diagnostico %></textarea>
+        </div>
+
+        <!-- Conducta -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Conducta</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Cada (horas)</th>
+                        <th>Por (días)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% 
+                        let conductas = historia.conducta ? historia.conducta.split('|') : []; 
+                        let filasNecesarias = Math.max(conductas.length, 3); // Siempre mínimo 3 filas
+
+                        for (let i = 0; i < filasNecesarias; i++) {
+                            let datos = ['', '', '']; // Por defecto vacío
+
+                            if (conductas[i]) {
+                                let match = conductas[i].trim().match(/^(.*?) cada (\d+) horas por (\d+) días\.$/);
+                                if (match) {
+                                    datos = [match[1], match[2], match[3]];
+                                } else {
+                                    datos = [conductas[i].trim(), '', '']; // Si no encaja, todo en medicamento
+                                }
+                            }
+                    %>
+                        <tr>
+                            <td><input type="text" class="form-control" name="medicamento[]" value="<%= datos[0] %>" disabled></td>
+                            <td><input type="number" class="form-control" name="horas[]" value="<%= datos[1] %>" disabled></td>
+                            <td><input type="number" class="form-control" name="dias[]" value="<%= datos[2] %>" disabled></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Servicios -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Servicios Disponibles</h5>
+
+            <div class="btn-group d-flex flex-wrap" role="group" aria-label="Servicios">
+
+                <% const servicios = ["Medicina General", "Odontología", "Optometría", "Higiene Oral", "Nutrición", "Psicología"]; %>
+
+                <% servicios.forEach(servicio => { %>
+                    <input type="checkbox" class="btn-check" name="servicios[]" value="<%= servicio %>"
+                        id="servicio-<%= servicio.replace(' ', '').toLowerCase() %>"
+                        <%= (serviciosSeleccionados.includes(servicio) ? "checked" : "") %> disabled>
+
+                    
+                    <label class="btn btn-outline-primary m-1" for="servicio-<%= servicio.replace(' ', '').toLowerCase() %>">
+                        <%= servicio %>
+                    </label>
+                <% }); %>
+
+            </div>
+        </div>
+
+
+        <!-- Firmas -->
+        <% console.log("Usuario logueado:", usuario); %>
+
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Firmas</h5>
+            <div class="row g-3">
+                <!-- Firma del Enfermer@ -->
+                <div class="col-md-6 text-center">
+                    <label class="form-label">Firma del Enfermer@</label>
+                    <input type="text" id="firma_ingreso" name="firma_ingreso" class="form-control" 
+                        value="<%= historia.firma_ingreso %>" disabled>
+                </div>
+
+                <!-- Firma del Médico -->
+                <div class="col-md-6 text-center">
+                    <label for="firma_medico" class="form-label">Firma del Médico:</label>
+                    <input type="text" id="firma_medico" name="firma_medico" class="form-control"
+                    value="<%= usuario && usuario.rol === 'medico' ? usuario.nombre : historia.firma_medico %>" disabled>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Obtener el rol del usuario desde la plantilla
+            const usuarioRol = "<%= usuario.rol %>";
+        
+            // Si el usuario es médico, llenar automáticamente la firma del médico
+            if (usuarioRol === "medico") {
+                document.getElementById('firma_medico').value = "<%= usuario.nombre %>";
+            }
+        </script>
+
+        <div class="text-center mt-4">
+            <a href="/dashboard" class="btn btn-primary">Volver</a>
+        </div>
+            
+    </form>
+</div>
+
+<script>
+    // Capturamos el select de sexo y los campos a mostrar/ocultar
+    const sexoSelect = document.getElementById('sexo'); // Asegúrate de tener este select en el HTML
+    const camposMujer = document.getElementById('antecedentes_mujer'); // El contenedor de los campos específicos para mujer
+    
+    // Función para mostrar/ocultar los campos según el sexo seleccionado
+    function actualizarCamposSexo() {
+        if (sexoSelect.value === 'M') {
+            // Ocultar completamente sin dejar espacio
+            camposMujer.style.display = 'none';
+    
+            // Desactiva los inputs internos para que no envíen datos vacíos
+            camposMujer.querySelectorAll('input').forEach(input => {
+                input.disabled = true; // Desactiva los campos de entrada
+            });
+        } else {
+            // Mostrar los campos
+            camposMujer.style.display = 'flex'; // Mantiene el formato horizontal
+            camposMujer.style.flexWrap = 'wrap';
+    
+            // Reactiva los inputs y asegura que estén habilitados
+            camposMujer.querySelectorAll('input').forEach(input => {
+                input.disabled = false; // Reactiva los campos de entrada
+            });
+        }
+    }
+    
+    // Detectamos cambios en el select
+    sexoSelect.addEventListener('change', actualizarCamposSexo);
+    
+    // Llamada inicial para ajustar los campos según la selección actual
+    actualizarCamposSexo();
+</script>
+
+
+<%- include('partials/footer') %>

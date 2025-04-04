@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+<!-- Encabezado estilizado -->
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<link rel="stylesheet" href="/styles.css">
+
+
+
+<!-- Contenedor principal -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Reporte de <%= servicio %></h2>
+    <p class="text-center fs-5">Total de pacientes por atender: <strong><%= totalPacientes %></strong></p>
+
+    <!-- Tabla con estilo Bootstrap -->
+    <% if (pacientes.length > 0) { %>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Identificación</th>
+                    <th>Atención</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-center align-middle">
+                <% pacientes.forEach((paciente) => { %>
+                    <tr>
+                        <td><%= paciente.id %></td>
+                        <td><%= paciente.fecha %></td>
+                        <td><%= paciente.nombre %></td>
+                        <td><%= paciente.identificacion %></td>
+                        <td>
+                            <% if (paciente.atencion === 'General') { %>
+                                <span class="badge bg-primary p-2">General</span>
+                            <% } else if (paciente.atencion === 'Prioritaria') { %>
+                                <span class="badge bg-danger p-2">Prioritaria</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary p-2">Sin definir</span>
+                            <% } %>
+                        </td>                        
+                        <td>
+                            <!-- Botón Editar que redirige a la vista de edición -->
+                            <div class="d-inline-block card shadow p-0 mx-1" style="background: none; border: none;">
+                                <a href="/historias_clinicas/editar/<%= paciente.id %>" class="btn btn-primary">Atender</a>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <!-- Alerta si no hay pacientes -->
+        <div class="alert alert-warning text-center mt-4">
+            <i class="bi bi-exclamation-circle"></i> No hay pacientes registrados para este servicio.
+        </div>
+    <% } %>
+
+    <h2 class="text-center mb-4">Historias Clínicas Atendidas</h2>
+    <p class="text-center fs-5">Total de pacientes atendidos: <strong><%= totalAtendidos %></strong></p>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Atención</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% historiasAtendidas.forEach(historia => { %>
+                <tr>
+                    <td><%= historia.id %></td>
+                    <td><%= historia.fecha %></td>
+                    <td><%= historia.nombre %></td>
+                    <td><%= historia.identificacion %></td>
+                    <td>
+                        <% if (historia.atencion === 'General') { %>
+                            <span class="badge bg-primary p-2">General</span>
+                        <% } else if (historia.atencion === 'Prioritaria') { %>
+                            <span class="badge bg-danger p-2">Prioritaria</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary p-2">Sin definir</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <div class="d-inline-block card shadow p-0 mx-1" style="background: none; border: none;">
+                            <a href="/historias_clinicas_atendidas/ver/<%= historia.id %>" class="btn btn-primary">Ver</a>
+                        </div>
+                    </td>                    
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    
+
+    <!-- Botón para volver -->
+    <div class="row justify-content-center mt-3">
+        <div class="card shadow col-md-3 mb-2 p-0 mx-2 text-center" style="background: none; border: none;">
+            <a href="/resumen_reportes" class="btn btn-primary btn-lg">Volver</a>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

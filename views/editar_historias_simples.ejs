@@ -1,0 +1,266 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Historia Clínica</h2>
+    <form action="/historias_basicas/editar/<%= historia.id %>" method="POST" class="needs-validation" novalidate>
+        
+ 
+        <!-- Datos Personales -->
+        <div class="card p-4 shadow">
+            <h5 class="mb-3">Datos Personales</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label for="fecha">Fecha de Registro:</label>
+                    <input type="date" id="fecha" name="fecha" value="<%= historia.fecha ? historia.fecha.toISOString().split('T')[0] : '' %>">
+                </div>
+                <div class="col-md-3">
+                    <label for="tipo_identificacion" class="form-label">Tipo de Identificación:</label>
+                    <select id="tipo_identificacion" name="tipo_identificacion" class="form-select" required>
+                        <option value="CC" <%= historia.tipo_identificacion === 'CC' ? 'selected' : '' %>>Cédula de Ciudadanía</option>
+                        <option value="TI" <%= historia.tipo_identificacion === 'TI' ? 'selected' : '' %>>Tarjeta de Identidad</option>
+                        <option value="CE" <%= historia.tipo_identificacion === 'CE' ? 'selected' : '' %>>Cédula de Extranjería</option>
+                        <option value="PAS" <%= historia.tipo_identificacion === 'PAS' ? 'selected' : '' %>>Pasaporte</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="identificacion" class="form-label">Número de Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" class="form-control" value="<%= historia.identificacion %>" required>
+                </div>                
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" value="<%= historia.nombre %>" required>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-2">
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" id="edad" name="edad" class="form-control" value="<%= historia.edad %>" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sexo:</label>
+                    <select id="sexo" name="sexo" class="form-select">
+                        <option value="M" <%= historia.sexo === 'M' ? 'selected' : '' %>>Masculino</option>
+                        <option value="F" <%= historia.sexo === 'F' ? 'selected' : '' %>>Femenino</option>
+                    </select>
+                </div>   
+                <div class="col-md-4">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" value="<%= historia.direccion %>">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control" value="<%= historia.telefono %>">
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                    <label class="form-label">Baño:</label>
+                    <select name="bano" class="form-select">
+                        <option value="Si" <%= historia.bano === 'Si' ? 'selected' : '' %>>Sí</option>
+                        <option value="No" <%= historia.bano === 'No' ? 'selected' : '' %>>No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivo de Consulta -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Motivo de Consulta</h5>
+            <textarea class="form-control" name="motivo_consulta" rows="3"><%= historia.motivo_consulta || '' %></textarea>
+        </div>
+
+        <!-- Antecedentes -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Antecedentes</h5>
+
+            <div class="row g-2">
+                <!-- Contenedor general de los campos femeninos -->
+                <div class="row g-3 mt-3" id="antecedentes_mujer">
+                    <div class="col-md-3">
+                        <label for="fum">FUM:</label>
+                        <input type="date" id="fum" name="fum" value="<%= historia.fum ? historia.fum.toISOString().split('T')[0] : '' %>">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="g" class="form-label">G:</label>
+                        <input type="number" id="g" name="g" class="form-control" value="<%= historia.g %>">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="a" class="form-label">A:</label>
+                        <input type="number" id="a" name="a" class="form-control" value="<%= historia.a %>">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="p" class="form-label">P:</label>
+                        <input type="number" id="p" name="p" class="form-control" value="<%= historia.p %>">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="v" class="form-label">V:</label>
+                        <input type="number" id="v" name="v" class="form-control" value="<%= historia.v %>">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="c" class="form-label">C:</label>
+                        <input type="number" id="c" name="c" class="form-control" value="<%= historia.c %>">
+                    </div>
+
+                    <!-- Ciclos -->
+                    <div class="row g-3 mt-3" id="ciclos_container">
+                        <div class="col-md-4">
+                            <label class="form-label">Ciclos</label>
+                            <div class="d-flex">
+                                <input type="text" id="ciclo1" name="ciclo1" class="form-control me-2" 
+                                    value="<%= (historia.ciclos ? historia.ciclos.split('X')[0] : '') %>">
+                                <span class="align-self-center">X</span>                      
+                                <input type="text" id="ciclo2" name="ciclo2" class="form-control ms-2" 
+                                    value="<%= (historia.ciclos ? historia.ciclos.split('X')[1] : '') %>">
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Area de texto para otros antecedentes -->
+                <textarea class="form-control mt-3" name="antecedentes" rows="3"><%= historia.antecedentes || '' %></textarea>
+                <h5 class="mb-3">Restos negativos.</h5>
+            </div>
+        </div>
+
+
+        <!-- Examen Físico -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Examen Físico</h5>
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <label for="fc" class="form-label">FC (x min):</label>
+                    <input type="text" id="fc" name="fc" class="form-control" value="<%= historia.fc %>">
+                </div>
+                <div class="col-md-2">
+                    <label for="fr" class="form-label">FR (x min):</label>
+                    <input type="text" id="fr" name="fr" class="form-control" value="<%= historia.fr %>">
+                </div>
+                <div class="col-md-2">
+                    <label for="ta" class="form-label">TA:</label>
+                    <input type="text" id="ta" name="ta" class="form-control" value="<%= historia.ta %>">
+                </div>
+                <div class="col-md-2">
+                    <label for="temperatura" class="form-label">Temperatura (C°):</label>
+                    <input type="text" id="temperatura" name="temperatura" class="form-control" value="<%= historia.temperatura %>">
+                </div>
+                <div class="col-md-2">
+                    <label for="peso" class="form-label">Peso (kg):</label>
+                    <input type="text" id="peso" name="peso" class="form-control" value="<%= historia.peso %>">
+                </div>
+                <div class="col-md-2">
+                    <label for="talla" class="form-label">Talla (m):</label>
+                    <input type="text" id="talla" name="talla" class="form-control" value="<%= historia.talla %>">
+                </div>
+            </div>
+            <h5 class="mb-3">Positivo al examen físico.</h5>
+            <textarea class="form-control" name="fisico" rows="3"><%= historia.fisico %></textarea>
+            <h5 class="mb-3">Resto de examen dentro de limites normales.</h5>
+        </div>
+
+        <!-- Atencion-->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Tipo de Atencion</h5>
+
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Tipo de Atencion">
+                <input type="radio" class="btn-check" name="atencion" id="atencion-general" value="General"
+                    <%= historia.atencion === 'General' ? 'checked' : '' %>>
+                <label class="btn btn-outline-primary m-1" for="atencion-general">
+                    <i class="bi bi-check-circle"></i> General
+                </label>
+                <input type="radio" class="btn-check" name="atencion" id="atencion-prioritaria" value="Prioritaria" 
+                    <%= historia.atencion === 'Prioritaria' ? 'checked' : '' %>>
+                <label class="btn btn-outline-danger m-1" for="atencion-prioritaria">
+                    <i class="bi bi-exclamation-circle"></i> Prioritaria
+                </label>
+            </div>
+        </div>
+
+
+        <!-- Servicios -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Servicios Disponibles</h5>
+
+            <div class="btn-group d-flex flex-wrap" role="group" aria-label="Servicios">
+                <% const servicios = ["Medicina General", "Odontología", "Optometría", "Higiene Oral", "Nutrición", "Psicología"]; %>
+            
+                <% servicios.forEach(servicio => { %>
+                    <input type="checkbox" class="btn-check" name="servicios[]" value="<%= servicio %>"
+                        id="servicio-<%= servicio.replace(' ', '').toLowerCase() %>"
+                        <%= (serviciosSeleccionados.includes(servicio) ? "checked" : "") %>>
+                    
+                    <label class="btn btn-outline-primary m-1" for="servicio-<%= servicio.replace(' ', '').toLowerCase() %>">
+                        <%= servicio %>
+                    </label>
+                <% }); %>
+            </div>            
+        </div>
+
+        <!-- Firmas -->
+        <div class="card p-4 mt-4 shadow">
+            <h5 class="mb-3">Firmas</h5>
+            <div class="row g-3">
+                <!-- Firma del Enfermer@ -->
+                <div class="col-md-6 text-center">
+                    <label for="firma_ingreso" class="form-label">Firma del Enfermer@:</label>
+                    <input type="text" id="firma_ingreso" name="firma_ingreso" class="form-control" 
+                        value="<%= usuario ? usuario.nombre : '' %>" readonly>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Obtener el rol del usuario desde la plantilla
+            const usuarioRol = "<%= usuario.rol %>";
+
+            // Si el usuario es médico, llenar automáticamente la firma del médico
+            if (usuarioRol === "Médico") {
+                document.getElementById('firma_medico').value = "<%= usuario.nombre %>";
+            }
+        </script>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" onclick="history.back()">Guardar Cambios</button>
+            <a href="/dashboard" class="btn btn-secondary">Cancelar</a>
+        </div>
+            
+    </form>
+</div>
+
+
+<script>
+// Capturamos el select de sexo y los campos a mostrar/ocultar
+const sexoSelect = document.getElementById('sexo');
+const camposMujer = document.getElementById('antecedentes_mujer'); 
+
+// Función para mostrar/ocultar los campos según el sexo seleccionado
+function actualizarCamposSexo() {
+    if (sexoSelect.value === 'M') {
+        // Ocultar completamente sin dejar espacio
+        camposMujer.style.display = 'none';
+
+        // Desactiva los inputs internos para que no envíen datos vacíos
+        camposMujer.querySelectorAll('input').forEach(input => input.disabled = true);
+    } else {
+        // Mostrar los campos
+        camposMujer.style.display = 'flex'; // Mantiene el formato horizontal
+        camposMujer.style.flexWrap = 'wrap';
+
+        // Reactiva los inputs
+        camposMujer.querySelectorAll('input').forEach(input => input.disabled = false);
+    }
+}
+
+// Detectamos cambios en el select
+sexoSelect.addEventListener('change', actualizarCamposSexo);
+
+// Llamada inicial para ajustar los campos según la selección actual
+actualizarCamposSexo();
+
+</script>
+
+<%- include('partials/footer') %>

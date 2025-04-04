@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/styles.css">
+
+
+<div style="background-color: #1E90FF; color: white; padding: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+    ConviCare
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Historias Clínicas Registradas</h2>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Atención</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% historias.forEach(historia => { %>
+                <tr>
+                    <td><%= historia.id %></td>
+                    <td><%= historia.fecha %></td>
+                    <td><%= historia.nombre %></td>
+                    <td><%= historia.identificacion %></td>
+                    <td>
+                        <% if (historia.atencion === 'General') { %>
+                            <span class="badge bg-primary p-2">General</span>
+                        <% } else if (historia.atencion === 'Prioritaria') { %>
+                            <span class="badge bg-danger p-2">Prioritaria</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary p-2">Sin definir</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a href="/historias_clinicas/editar/<%= historia.id %>" class="btn btn-primary">Atender</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <h2 class="text-center mb-4">Historias Clínicas Atendidas</h2>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Atención</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% historiasAtendidas.forEach(historia => { %>
+                <tr>
+                    <td><%= historia.id %></td>
+                    <td><%= historia.fecha %></td>
+                    <td><%= historia.nombre %></td>
+                    <td><%= historia.identificacion %></td>
+                    <td>
+                        <% if (historia.atencion === 'General') { %>
+                            <span class="badge bg-primary p-2">General</span>
+                        <% } else if (historia.atencion === 'Prioritaria') { %>
+                            <span class="badge bg-danger p-2">Prioritaria</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary p-2">Sin definir</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a href="/historias_clinicas_atendidas/ver/<%= historia.id %>" class="btn btn-primary">Ver</a>
+                    </td>                    
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    
+
+
+
+    <!--  Botón para regresar al dashboard -->
+    <div class="text-center mt-4">
+        <a href="/dashboard" class="btn btn-primary btn-lg">Volver al Board</a>
+    </div>
+
+<%- include('partials/footer') %>

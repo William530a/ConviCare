@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ConviCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">ConviCare</a>
+            <div class="collapse navbar-collapse justify-content-end">
+                <span class="navbar-text me-3 text-white">Bienvenido, <%= session.usuario.nombre %>!</span>
+                <a href="/logout" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Panel de Control</h1>
+        <h3 class="text-center text-muted">Tu Rol: <%= session.usuario.rol %></h3>
+
+        <div class="row mt-4">
+
+            <!-- ROL ADMIN -->
+            <% if (session.usuario.rol === 'admin') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Administración</h4>
+                        <a href="/usuarios" class="btn btn-primary">Gestionar Usuarios</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Reportes</h4>
+                        <a href="/resumen_reportes" class="btn btn-primary">Ver Reportes</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+
+            
+            <!-- ROL MEDICO -->
+            <% } else if (session.usuario.rol === 'medico') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/historias" class="btn btn-primary">Ver Regsitros</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+
+            <!-- ROL PRACTICANTE -->
+            <% } else if (session.usuario.rol === 'practicante') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/registro_clinico_simple" class="btn btn-primary">Registrar</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+
+            <!-- ROL ODONTOLOG@ -->   
+            <% } else if (session.usuario.rol === 'odontolog@') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/reporte/odontologia" class="btn btn-primary">Ver</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+            
+            <!-- ROL OPTOMETRA -->   
+            <% } else if (session.usuario.rol === 'optometra') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/reporte/optometria" class="btn btn-primary">Ver</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+
+            <!-- ROL NUTRICIONISTA -->   
+            <% } else if (session.usuario.rol === 'nutricionista') { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/reporte/nutricion" class="btn btn-primary">Ver</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+                
+                <!-- ROL PSICOLOG@ -->   
+                <% } else if (session.usuario.rol === 'psicolog@') { %>
+                    <div class="col-md-4">
+                        <div class="card shadow p-3">
+                            <h4>Pacientes</h4>
+                            <a href="/reporte/psicologia" class="btn btn-primary">Ver</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow p-3">
+                            <h4>Farmacia</h4>
+                            <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                        </div>
+                    </div>
+
+                <!-- ROL ENFERMER@ -->
+                <% } else if (session.usuario.rol === 'enfermer@') { %>
+                    <div class="col-md-4">
+                        <div class="card shadow p-3">
+                            <h4>Pacientes</h4>
+                            <a href="/registro_clinico" class="btn btn-primary">Registrar</a>
+                            <h4></h4>
+                            <h4></h4>
+                            <a href="/historias_simples" class="btn btn-primary">Editar</a> 
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow p-3">
+                            <h4>Farmacia</h4>
+                            <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                        </div>
+                    </div>
+
+            <!-- ROL VOLUNTARI@ -->
+            <% } else { %>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Pacientes</h4>
+                        <a href="/registro_clinico_simple" class="btn btn-primary">Registrar</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow p-3">
+                        <h4>Farmacia</h4>
+                        <a href="/farmacia" class="btn btn-primary">Ver Farmacia</a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<%- include('partials/footer') %>
